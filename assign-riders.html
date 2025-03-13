@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Riders</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { display: none; } /* Hide content until authentication */
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Assign Riders</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="track-order.html">Track Order</a></li>
+            <li><a href="manage-deliveries.html">Manage Deliveries</a></li>
+        </ul>
+        <button onclick="logoutAdmin()">🔓 Logout</button>
+    </nav>
+</header>
+
+<!-- Container -->
+<div class="container">
+    <h2>Assign Riders to Deliveries</h2>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer Name</th>
+            <th>Delivery Address</th>
+            <th>Rider</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>1001</td>
+            <td>Samarasinghe</td>
+            <td>10, Main Lane, High Street, Colombo</td>
+            <td>
+                <select class="rider-select">
+                    <option>Select Rider</option>
+                </select>
+            </td>
+            <td><button class="assign-btn" onclick="assignRider(this)">Assign</button></td>
+        </tr>
+        <tr>
+            <td>1002</td>
+            <td>Gamage</td>
+            <td>25, Park Road, Green Avenue, Kandy</td>
+            <td>
+                <select class="rider-select">
+                    <option>Select Rider</option>
+                </select>
+            </td>
+            <td><button class="assign-btn" onclick="assignRider(this)">Assign</button></td>
+        </tr>
+    </table>
+</div>
+
+<!-- Rider Management Section -->
+<div class="container">
+    <h2>Manage Riders</h2>
+    <table id="rider-table">
+        <tr>
+            <th>Rider Name</th>
+            <th>Contact</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td>Rider 1</td>
+            <td>+94 711234567</td>
+            <td>
+                <button onclick="removeRider(this)">Remove</button>
+                <button onclick="updateRider(this)">Update</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Rider 2</td>
+            <td>+94 722345678</td>
+            <td>
+                <button onclick="removeRider(this)">Remove</button>
+                <button onclick="updateRider(this)">Update</button>
+            </td>
+        </tr>
+    </table>
+    
+    <h3>Add New Rider</h3>
+    <input type="text" id="new-rider-name" placeholder="Enter Rider Name">
+    <input type="text" id="new-rider-contact" placeholder="Enter Contact">
+    <button onclick="addRider()">Add Rider</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const adminPassword = "admin123"; // Change this password for security
+
+        // Check if admin is already authenticated
+        if (sessionStorage.getItem("adminAuthenticated") !== "true") {
+            let userInput = prompt("🔑 Enter Admin Password:");
+            
+            if (userInput === adminPassword) {
+                sessionStorage.setItem("adminAuthenticated", "true");
+                document.body.style.display = "block"; // Show page
+                alert("✅ Access Granted!");
+            } else {
+                alert("⛔ Access Denied! Redirecting...");
+                window.location.href = "index.html"; // Redirect unauthorized users
+            }
+        } else {
+            document.body.style.display = "block"; // Show page if already logged in
+        }
+    });
+
+    function logoutAdmin() {
+        sessionStorage.removeItem("adminAuthenticated");
+        alert("🔓 Logged out successfully!");
+        window.location.href = "index.html"; // Redirect to home
+    }
+
+    // Function to Assign Rider
+    function assignRider(button) {
+        let row = button.closest("tr"); 
+        let selectedRider = row.querySelector(".rider-select").value;
+        if (selectedRider === "Select Rider") {
+            alert("⚠ Please select a valid rider!");
+        } else {
+            alert(`✅ Assigned ${selectedRider} to the delivery!`);
+        }
+    }
+
+    // Function to Remove Rider
+    function removeRider(button) {
+        let row = button.closest("tr");
+        let riderName = row.cells[0].innerText;
+        if (confirm(`Are you sure you want to remove ${riderName}?`)) {
+            row.remove();
+            updateRiderDropdowns();
+        }
+    }
+
+    // Function to Update Rider
+    function updateRider(button) {
+        let row = button.closest("tr");
+        let newName = prompt("Enter new name:", row.cells[0].innerText);
+        let newContact = prompt("Enter new contact:", row.cells[1].innerText);
+        if (newName && newContact) {
+            row.cells[0].innerText = newName;
+            row.cells[1].innerText = newContact;
+            updateRiderDropdowns();
+        }
+    }
+
+    // Function to Add a New Rider
+    function addRider() {
+        let name = document.getElementById("new-rider-name").value;
+        let contact = document.getElementById("new-rider-contact").value;
+        if (name && contact) {
+            let table = document.getElementById("rider-table");
+            let newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td>${name}</td>
+                <td>${contact}</td>
+                <td>
+                    <button onclick="removeRider(this)">Remove</button>
+                    <button onclick="updateRider(this)">Update</button>
+                </td>
+            `;
+            document.getElementById("new-rider-name").value = "";
+            document.getElementById("new-rider-contact").value = "";
+            updateRiderDropdowns();
+        } else {
+            alert("⚠ Please enter both name and contact.");
+        }
+    }
+
+    // Function to Update Rider Selection Dropdowns
+    function updateRiderDropdowns() {
+        let riderSelects = document.querySelectorAll(".rider-select");
+        let riders = document.querySelectorAll("#rider-table tr td:first-child");
+        riderSelects.forEach(select => {
+            select.innerHTML = '<option>Select Rider</option>';
+            riders.forEach(rider => {
+                let option = document.createElement("option");
+                option.textContent = rider.textContent;
+                select.appendChild(option);
+            });
+        });
+    }
+</script>
+
+</body>
+</html>

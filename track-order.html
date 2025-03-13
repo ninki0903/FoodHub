@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>FoodHub - Track Your Order</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="place-order.html">Place Order</a></li>
+                
+            </ul>
+            <!-- Cart Icon (Linked to <li><a href="manage-deliveries.html">Manage Deliveries</a></li>
+                <li><a href="assign-riders.html">Assign Riders</a></li>Cart Page) -->
+            <a href="cart.html" class="cart">
+                <img src="download (4).png" alt="Cart" class="cart-icon">
+            </a>
+        </nav>
+    </header>
+
+    <section class="track-order">
+        <h2>Enter Your Order ID</h2>
+        <input type="text" id="order-id" placeholder="Enter Order ID">
+        <button onclick="trackOrder()">Track</button>
+
+        <div id="order-status" class="order-status">
+            <!-- Order status will be displayed here -->
+        </div>
+    </section>
+
+    <script>
+        function trackOrder() {
+            let orderId = document.getElementById("order-id").value.trim();
+            let orderStatusDiv = document.getElementById("order-status");
+
+            // Simulating a database of orders with their statuses
+            let orders = {
+                "ORD123": "✅ Order Confirmed",
+                "ORD456": "🍳 Preparing Your Food",
+                "ORD789": "🚗 Out for Delivery",
+                "ORD101": "📦 Delivered Successfully"
+            };
+
+            // Check if order ID is entered
+            if (orderId === "") {
+                orderStatusDiv.innerHTML = "<p style='color: red;'>⚠ Please enter a valid Order ID!</p>";
+                return;
+            }
+
+            // Check if order ID exists in our simulated database
+            if (orders.hasOwnProperty(orderId)) {
+                orderStatusDiv.innerHTML = `<p style='color: green;'>🔍 Order Status: ${orders[orderId]}</p>`;
+            } else {
+                orderStatusDiv.innerHTML = "<p style='color: orange;'>❌ Order not found! Please check your Order ID.</p>";
+            }
+        }
+        
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

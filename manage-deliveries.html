@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Deliveries</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+
+    <header>
+        <h1>Manage Deliveries</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+                <li><a href="assign-riders.html">Assign Riders</a></li>
+            </ul>
+            <button onclick="logoutAdmin()">🔓 Logout</button>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <h2>Active Deliveries</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Address</th>
+                    <th>Rider</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1001</td>
+                    <td>Samarasinghe</td>
+                    <td>10, Main Lane, High Street, Colombo</td>
+                    <td>
+                        <select class="rider-select">
+                            <option>Select Rider</option>
+                            <option>Rider 1</option>
+                            <option>Rider 2</option>
+                        </select>
+                    </td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>
+                        <button class="assign-btn" onclick="assignRider(this)">Assign</button>
+                        <button class="status-btn" onclick="updateStatus(this)">Out for Delivery</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1002</td>
+                    <td>Gamage</td>
+                    <td>25, Park Road, Green Avenue, Kandy</td>
+                    <td>
+                        <select class="rider-select">
+                            <option>Select Rider</option>
+                            <option>Rider 3</option>
+                            <option>Rider 4</option>
+                        </select>
+                    </td>
+                    <td><span class="status delivered">Delivered</span></td>
+                    <td>
+                        <button class="assign-btn" onclick="assignRider(this)">Assign</button>
+                        <button class="status-btn" onclick="updateStatus(this)">Delivered</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function assignRider(button) {
+            let row = button.closest("tr"); 
+            let selectedRider = row.querySelector(".rider-select").value;
+            if (selectedRider === "Select Rider") {
+                alert("⚠ Please select a valid rider!");
+            } else {
+                alert(`✅ Rider assigned: ${selectedRider}`);
+            }
+        }
+
+        function updateStatus(button) {
+            let row = button.closest("tr");
+            let statusCell = row.querySelector(".status");
+            if (statusCell.innerText === "Pending") {
+                statusCell.innerText = "🚗 Out for Delivery";
+                statusCell.classList.remove("pending");
+                statusCell.classList.add("out-for-delivery");
+            } else if (statusCell.innerText.includes("Out for Delivery")) {
+                statusCell.innerText = "📦Delivered";
+                statusCell.classList.remove("out-for-delivery");
+                statusCell.classList.add("delivered");
+            } else {
+                alert("⚠ Order is already delivered!");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+    const adminPassword = "admin123"; // Change this to your desired password
+
+    // Check if the admin is already authenticated
+    if (sessionStorage.getItem("adminAuthenticated") !== "true") {
+        let userInput = prompt("🔑 Enter Admin Password:");
+
+        if (userInput === adminPassword) {
+            sessionStorage.setItem("adminAuthenticated", "true"); // Store authentication in session
+            alert("✅ Access Granted!");
+        } else {
+            alert("⛔ Access Denied! Redirecting...");
+            window.location.href = "index.html"; // Redirect to home or another page
+        }
+    }
+});
+
+function logoutAdmin() {
+    sessionStorage.removeItem("adminAuthenticated"); // Remove admin authentication
+    alert("🔓 Logged out successfully!");
+    window.location.href = "index.html"; // Redirect to home
+}
+ </script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Your Cart</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="place-order.html">Place Order</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="cart-container">
+        <h2>Order Summary</h2>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Items will be inserted dynamically -->
+            </tbody>
+        </table>
+
+        <h3 id="total-price">Total: 0.00</h3>
+        <h3>Estimated Arrival Time: <span id="arrival-time">30 mins</span></h3>
+
+        <!-- Cancel Order Button -->
+        <button id="cancel-order-btn" class="cancel-btn">Cancel Order</button>
+    </div>
+
+    <script src="cart.js"></script>
+    <script>
+        document.getElementById("cancel-order-btn").addEventListener("click", function() {
+            if (confirm("Are you sure you want to cancel your order?")) {
+                document.querySelector("#cart-table tbody").innerHTML = ""; // Clear items
+                document.getElementById("total-price").innerText = "Total: 0.00"; // Reset total
+                document.getElementById("arrival-time").innerText = "N/A"; // Reset arrival time
+                alert("Your order has been canceled.");
+            }
+        });
+    </script>
+</body>
+</html>

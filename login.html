@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub - Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <h1>FoodHub</h1>
+        <nav>
+            <ul>
+                <span class="tagline">Fast, Fresh, and Delivered with Love!</span>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Small Login Form -->
+    <section class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <select id="userType">
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+            </select>
+            <button type="submit">Login</button>
+        </form>
+        <p><a href="signup.html">Sign Up</a> | <a href="#">Forgot Password?</a></p>
+    </section>
+
+    <script>
+        function login() {
+            let password = prompt("🔑 Enter Admin Password:");
+            const adminPassword = "admin123"; // Set your real password here
+    
+            if (password === adminPassword) {
+                sessionStorage.setItem("adminAuthenticated", "true"); // Store login status
+                alert("✅ Login successful!");
+                window.location.href = "index.html"; // Redirect to home/admin page
+            } else {
+                alert("⛔ Incorrect password! Try again.");
+            }
+        }
+    </script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <h1>FoodHub Delivery System</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="place-order.html">Place Order</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+                    <!-- Cart Icon (Linked to Cart Page) -->
+        <a href="cart.html" class="cart">
+            <img src="download (4).png" alt="Cart" class="cart-icon">
+        </a>
+         <!-- Logout Button -->
+         <button class="logout-btn" onclick="logoutUser()">🔓 Logout</button>
+    </nav>
+    </header>
+    
+
+    <!-- Hero Section -->
+
+    <section class="hero">
+        <h1>Welcome to FoodHub Delivery</h1>
+        <p>Order your favorite meals and get them delivered to your doorstep!</p>
+        <button class="place-order" onclick="location.href='place-order.html'">Place Order</button>
+        <a href="place-order.html">
+            <button 1class=></button>
+        </a>
+        <div class="quick-actions">
+            <button onclick="location.href='track-order.html'">Track Order</button>
+            <button onclick="location.href='manage-deliveries.html'">Manage Deliveries</button>
+            <button onclick="location.href='assign-riders.html'">Assign Riders</button>
+        </div>
+    </section>
+
+    <script>
+
+        function logoutUser() {
+    sessionStorage.removeItem("adminAuthenticated"); // Remove admin authentication
+    alert("🔓 Logged out successfully!");
+    window.location.href = "login.html"; // Redirect to login page
+}
+    </script>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
